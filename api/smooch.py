@@ -155,6 +155,7 @@ class Comm:
 if __name__ == "__main__":
     smoochid = ""
     x = Comm(smoochid=smoochid, user_text="tester", metadata=None, device='not local')
+    print x.send_msg(text="lol")
     print x.get_webhooks()
 
 

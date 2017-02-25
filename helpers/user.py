@@ -27,7 +27,7 @@ class UserData:
         # save all the user_data from the database to an object
         self.smoochid = smoochid
         self.connect_to_db()
-	givenName = "test given name"
+        givenName = "test given name"
         #get the first returned user (there can only be one because smoochid is a unique key)
         try:
             cursor = self.db.users.find({"smoochid": smoochid})
@@ -56,7 +56,7 @@ class UserData:
         try:
             client = MongoClient('mongodb://holmes:sherlock@homechat.structurely.com:27017/master')
             client = MongoClient('mongodb://localhost:27017/master')
-	    self.db = client.master
+            self.db = client.master
         except:
             raise Exception("Can't connect to Database")
 
@@ -88,7 +88,7 @@ class UserData:
         print "*************************************"
         print "Current states of smoochid: ", self.smoochid
         for each in self.user_obj:
-            print each, " : ",self.user_obj[each]
+            print each, " : ", self.user_obj[each]
         print "*************************************"
 
     def write_data(self):
@@ -98,5 +98,5 @@ class UserData:
 
 
 if __name__ == "__main__":
-	user = UserData("abc")
-	user.print_all()
+    user = UserData("abc")
+    user.print_all()

@@ -16,11 +16,10 @@ class Comm:
     The device can be: "local" (development), "facebook", "sms", "email", "
     '''
 
-    def __init__(self, smoochid, user_text, metadata, device):
+    def __init__(self, smoochid, user_text, metadata):
         self.smoochid = smoochid
         self.metadata = metadata
         self.user_text = user_text
-        self.device = device
         self.smoochAppName = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImFwcF81OGIwZmM5Y2EwNjRmZjY0MDBlN2EyZmEifQ.eyJzY29wZSI6ImFwcCJ9.qaETkxz039oyxrdnDpf2XQwxe6DlnutmlI9PG0Gb5Gc'
         self.smoochAppId = 'app_58b0fc9ca064ff6400e7a2fa'
         self.bearer = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImFwcF81OGIwZmM5Y2EwNjRmZjY0MDBlN2EyZmEifQ.eyJzY29wZSI6ImFwcCJ9.qaETkxz039oyxrdnDpf2XQwxe6DlnutmlI9PG0Gb5Gc'

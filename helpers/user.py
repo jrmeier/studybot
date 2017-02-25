@@ -27,7 +27,7 @@ class UserData:
         # save all the user_data from the database to an object
         self.smoochid = smoochid
         self.connect_to_db()
-
+	givenName = "test given name"
         #get the first returned user (there can only be one because smoochid is a unique key)
         try:
             cursor = self.db.users.find({"smoochid": smoochid})
@@ -55,7 +55,8 @@ class UserData:
         print "Attempting to connect to database..."
         try:
             client = MongoClient('mongodb://holmes:sherlock@homechat.structurely.com:27017/master')
-            self.db = client.master
+            client = MongoClient('mongodb://localhost:27017/master')
+	    self.db = client.master
         except:
             raise Exception("Can't connect to Database")
 
@@ -97,4 +98,5 @@ class UserData:
 
 
 if __name__ == "__main__":
-    print "testing"
+	user = UserData("abc")
+	user.print_all()

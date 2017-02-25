@@ -17,10 +17,10 @@ class Comm:
     '''
 
     def __init__(self, smoochid, user_text, metadata, device):
+        self.device = device
         self.smoochid = smoochid
         self.metadata = metadata
         self.user_text = user_text
-        self.device = device
         self.smoochAppName = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImFwcF81OGIwZmM5Y2EwNjRmZjY0MDBlN2EyZmEifQ.eyJzY29wZSI6ImFwcCJ9.qaETkxz039oyxrdnDpf2XQwxe6DlnutmlI9PG0Gb5Gc'
         self.smoochAppId = 'app_58b0fc9ca064ff6400e7a2fa'
         self.bearer = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImFwcF81OGIwZmM5Y2EwNjRmZjY0MDBlN2EyZmEifQ.eyJzY29wZSI6ImFwcCJ9.qaETkxz039oyxrdnDpf2XQwxe6DlnutmlI9PG0Gb5Gc'
@@ -111,10 +111,6 @@ class Comm:
                     return False
             return True
 
-
-    def send_media(self, media):
-        payload = {"mediaUrl": str(media), "mediaType": "image/jpeg","role": "appMaker"}
-        self.queue.append(payload)
 
     def empty_queue(self):
         self.queue = []

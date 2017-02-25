@@ -27,7 +27,7 @@ class UserData:
         # save all the user_data from the database to an object
         self.smoochid = smoochid
         self.connect_to_db()
-
+        givenName = "test given name"
         #get the first returned user (there can only be one because smoochid is a unique key)
         try:
             cursor = self.db.users.find({"smoochid": smoochid})
@@ -44,6 +44,7 @@ class UserData:
         print "Creating new mongo user for: ", self.smoochid
         # This should be the standard for new user creation intent 18 to show the initial message
         self.db.users.insert_one({'smoochid': self.smoochid,
+                                  'intent': 'newUser'
                                 })
 
         # User is created. Now let's store their information locally in user_obj
@@ -54,7 +55,7 @@ class UserData:
     def connect_to_db(self):
         print "Attempting to connect to database..."
         try:
-            client = MongoClient('mongodb://holmes:sherlock@homechat.structurely.com:27017/master')
+            client = MongoClient('mongodb://localhost:27017/master')
             self.db = client.master
         except:
             raise Exception("Can't connect to Database")
@@ -67,9 +68,8 @@ class UserData:
         try:
             return self.user_obj[property]
         except:
-            # raise KeyError("The property", property, "doesnt' exists in user_obj. User Data Class -- get_data function")
-            #  maybe change to None ?
-            return "Nonexist"
+
+            return None
 
     def post_data(self, obj, force=False):
 
@@ -87,7 +87,7 @@ class UserData:
         print "*************************************"
         print "Current states of smoochid: ", self.smoochid
         for each in self.user_obj:
-            print each, " : ",self.user_obj[each]
+            print each, " : ", self.user_obj[each]
         print "*************************************"
 
     def write_data(self):
@@ -95,6 +95,11 @@ class UserData:
         res = self.db.users.update_one({"smoochid": self.smoochid}, {'$set': self.user_obj})
         return res
 
+    def remove_user(self):
+        self.db.users.remove({'smoochid': self.smoochid})
+
 
 if __name__ == "__main__":
-    print "testing"
+    user = UserData("abc")
+    user.remove_user()
+    user.print_all()

@@ -55,12 +55,12 @@ def compute(smoochid, msg, device, postback, metadata):
             u_comm.send_msg("Okay, we will stop!")
         else:
             u_comm.send_msg("Hmm. That's not supposed to happen!")
-        u_data.write_data()
-        u_comm.execute_queue()
+
     except Exception as e:
         error = str(repr(e))
         print "Error", e
-
+    u_data.write_data()
+    u_comm.execute_queue()
     return "Done"
 
 if __name__ == "__main__":

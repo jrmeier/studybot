@@ -15,11 +15,12 @@ class Quizlet:
         self.base = "http://api.quizlet.com"
 
     def get_sets(self):
-        code = "https://api.quizlet.com/2.0/users/Brian_Espinosa854/sets"
-        headers = {'Authorization': 'Bearer K7QNY7NYCY7YcMNr9bnjhHhRTmKnUjuxuFyYCSN6'}
+        code = "https://api.quizlet.com/2.0/users/"+self.user+"/sets"
+        headers = {'Authorization': 'Bearer sVCXymGVgRXkuj94V6NnnTj9RegXZJ7x8A6Je68Z'}
         req = requests.get(code,headers=headers)
         #req = requests.get('https://api.quizlet.com/2.0/users/jed_meier',headers)
         return json.loads(req.content)
+
 if __name__ == '__main__':
-    qz = Quizlet("jed_meier")
+    qz = Quizlet("Brian_Espinosa854")
     print qz.get_sets()

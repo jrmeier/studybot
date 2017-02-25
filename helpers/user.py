@@ -44,6 +44,7 @@ class UserData:
         print "Creating new mongo user for: ", self.smoochid
         # This should be the standard for new user creation intent 18 to show the initial message
         self.db.users.insert_one({'smoochid': self.smoochid,
+                                  'intent': 'newUser'
                                 })
 
         # User is created. Now let's store their information locally in user_obj
@@ -54,7 +55,6 @@ class UserData:
     def connect_to_db(self):
         print "Attempting to connect to database..."
         try:
-            client = MongoClient('mongodb://holmes:sherlock@homechat.structurely.com:27017/master')
             client = MongoClient('mongodb://localhost:27017/master')
             self.db = client.master
         except:
@@ -68,9 +68,8 @@ class UserData:
         try:
             return self.user_obj[property]
         except:
-            # raise KeyError("The property", property, "doesnt' exists in user_obj. User Data Class -- get_data function")
-            #  maybe change to None ?
-            return "Nonexist"
+
+            return None
 
     def post_data(self, obj, force=False):
 
@@ -96,7 +95,11 @@ class UserData:
         res = self.db.users.update_one({"smoochid": self.smoochid}, {'$set': self.user_obj})
         return res
 
+    def remove_user(self):
+        self.db.users.remove({'smoochid': self.smoochid})
+
 
 if __name__ == "__main__":
     user = UserData("abc")
+    user.remove_user()
     user.print_all()

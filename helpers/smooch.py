@@ -16,7 +16,8 @@ class Comm:
     The device can be: "local" (development), "facebook", "sms", "email", "
     '''
 
-    def __init__(self, smoochid, user_text, metadata):
+    def __init__(self, smoochid, user_text, metadata, device):
+        self.device = device
         self.smoochid = smoochid
         self.metadata = metadata
         self.user_text = user_text
@@ -110,10 +111,6 @@ class Comm:
                     return False
             return True
 
-
-    def send_media(self, media):
-        payload = {"mediaUrl": str(media), "mediaType": "image/jpeg","role": "appMaker"}
-        self.queue.append(payload)
 
     def empty_queue(self):
         self.queue = []

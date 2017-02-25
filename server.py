@@ -61,7 +61,8 @@ def api():
             print engine.compute(smoochid=smoochid, msg=user_text,device=device,postback=postback,metadata=metadata)
 
             return "error"
-        except:
+        except Exception as e:
+            print e
             print "something didn't work"
             return "error :("
     else:

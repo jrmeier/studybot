@@ -13,7 +13,6 @@ Purpose: function to implement all the classes and data instructions
 import helpers.smooch as comm
 import helpers.user as user
 
-nope = ['Nonexists', None, [], 'Nonexist']
 
 def compute(smoochid, msg, device, postback, metadata):
     '''
@@ -21,7 +20,7 @@ def compute(smoochid, msg, device, postback, metadata):
     '''
     # initialize the classes
     print "u_comm initializing ..."
-    u_comm = comm.Comm(smoochid=smoochid, user_text=msg, metadata=metadata)
+    u_comm = comm.Comm(smoochid=smoochid, user_text=msg, metadata=metadata, device=device)
     print "u_comm finished runninug"
     u_data = user.UserData(smoochid=smoochid)
 
@@ -35,31 +34,38 @@ def compute(smoochid, msg, device, postback, metadata):
     try:
         # if there is a postback that is for sure the intent
         if postback:
-            curr_intent = int(postback)
+            curr_intent = postback
         else:
             print "there wasn't a post back!"
             # grabs the previous intent
-            past_intent = u_data.get_data(property='intent')
-            curr_intent = 'study'
-            # given the previous intent (past_intent) find the execution function they require
+            curr_intent = u_data.get_data('intent')
 
         u_data.post_data({'intent': curr_intent})
-        if not postback:
-            # Extract for the intent and save it to the user
-            print "Beginning Extraction ..."
 
         # Prints user data at this stage
         u_data.print_all()
 
+        if u_data.get_data('intent') == "newUser":
+            u_comm.send_msg("hello new user!")
+
+        elif u_data.get_data('intent') == "start_study":
+            u_comm.send_msg("okay, cool. Let's get started")
+
+        elif u_data.get_data('intent') == "quit_study":
+            u_comm.send_msg("Okay, we will stop!")
+        else:
+            u_comm.send_msg("Hmm. That's not supposed to happen!")
+        u_data.write_data()
+        u_comm.execute_queue()
     except Exception as e:
         error = str(repr(e))
         print "Error", e
 
-    return "what"
+    return "Done"
 
 if __name__ == "__main__":
     msg = "test"
     device = "what"
-    postback = None
+    postback = "newUser"
     metadata = None
-    print compute("abc123",msg, device, postback, metadata)
+    print compute("683a60ded0ca72b599ee73b5", msg, device, postback, metadata)

@@ -50,7 +50,7 @@ class Comm:
 
     def get_webhooks(self):
         payload = {
-            'triggers':['message:appUser']
+            'triggers': ['message:appUser']
         }
         read = requests.get(
             'https://api.smooch.io/v1/webhooks/',

@@ -1,38 +1,37 @@
-.jumbotron {
+#title {
   text-align: center;
-  margin: 0 0 0 0;
+  margin-top: -20px;
 }
 
 #desc {
+  margin-top: -10px;
   font-size: 26px;
 }
-
 
 body {
   padding-top: 30px;
   padding-bottom: 30px;
-  background-color: #A0A0A0;
+  background-color: #BDD8EB;
 }
 
 .form-signin {
-  max-width: 345px;
+  max-width: 330px;
   padding: 15px;
   margin: 0 auto;
-  margin-top: 80px;
+  margin-top: 100px;
 }
 
 .form-signin .form-control {
-  position: relative;
   height: auto;
   padding: 10px;
-  font-size: 16px;
+  font-size: 18px;
 }
 
   #form-desc {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
-  margin-left: 50px;
-  margin-bottom: 10px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .form-signin input[type="email"] {
@@ -45,13 +44,18 @@ body {
   margin-left: 39px;
 }
 
+form {
+  text-align: center;
+}
+
 .btn {
-  margin-top: 10px;
-  margin-left: 140px;
+  font-size: 18px;
+  margin-top: 15px;
+  position: center;
 }
 
 .footer {
   font-size: 18px;
-  margin-top: 260px;
+  margin-top: 230px;
   text-align: center;
 }

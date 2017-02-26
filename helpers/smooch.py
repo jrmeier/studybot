@@ -21,8 +21,7 @@ class Comm:
         self.smoochid = smoochid
         self.metadata = metadata
         self.user_text = user_text
-        self.smoochAppName = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImFwcF81OGIwZmM5Y2EwNjRmZjY0MDBlN2EyZmEifQ.eyJzY29wZSI6ImFwcCJ9.qaETkxz039oyxrdnDpf2XQwxe6DlnutmlI9PG0Gb5Gc'
-        self.smoochAppId = 'app_58b0fc9ca064ff6400e7a2fa'
+        self.smoochAppId = '6msd40qa7d3u3uvxhx5muf0xf'
         self.bearer = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImFwcF81OGIwZmM5Y2EwNjRmZjY0MDBlN2EyZmEifQ.eyJzY29wZSI6ImFwcCJ9.qaETkxz039oyxrdnDpf2XQwxe6DlnutmlI9PG0Gb5Gc'
         self.header = {'content-type': 'application/json', 'authorization': self.bearer}
         self.queue = []
@@ -48,17 +47,7 @@ class Comm:
     Determines if it is a postback or URI, use _type="reply" for a reply
     '''
 
-    def get_webhooks(self):
-        payload = {
-            'triggers': ['message:appUser']
-        }
-        read = requests.get(
-            'https://api.smooch.io/v1/webhooks/',
-            headers=self.header)
-        return read.content
-
-
-    def send_action_old(self, msg, actions):
+    def send_action(self, msg, actions):
         payload = {"text": msg, "role": "appMaker", "actions": []}
         payload['actions'] = actions
         self.queue.append(payload)
@@ -93,21 +82,17 @@ class Comm:
                 print str(each)
         else:
             print "Executing queue on user..."
-            if not self.typing_status:
-                self.typing_indicator(True)
 
             for each in self.queue:
                 wait = round(random.uniform(.5, 2), 2)
                 time.sleep(wait)
-                self.typing_indicator(False)
                 read = requests.post(
                     'https://api.smooch.io/v1/appusers/' + str(self.smoochid) + '/messages', json=each,
                     headers=self.header)
-
                 if read.status_code == 201 or read.status_code == 200:
                     pass
                 else:
-                    print "status code: ", read.status_code
+                    print "status code: ", read.content
                     return False
             return True
 
@@ -115,28 +100,6 @@ class Comm:
     def empty_queue(self):
         self.queue = []
         print "queue is reset"
-
-
-    '''
-    Get all messages.
-    before = True (grabs all data)
-    before = Unix time for before a specific time
-    ex. get_messages(before=1471995721)
-    Max of 100 messages
-    '''
-    def get_messages(self, before=False):
-        headers = {'app-token': os.environ['APPTOKEN']}
-
-        before = str(before) if before else  str(int(time.time()))
-
-        read = requests.get(
-            'https://api.smooch.io/v1/appusers/' + str(self.smoochid) + '/messages?before='+before ,
-            headers=headers)  # Lets send it
-
-        if read.status_code == 200:
-            return json.loads(read.content)
-        else:
-            raise Exception("Error in get_messages. Smooch status code: ", read.status_code)
 
     def count_all_messages(self):
         next_time = time.time()
@@ -149,10 +112,9 @@ class Comm:
         return count
 
 if __name__ == "__main__":
-    smoochid = ""
+    smoochid = "683a60ded0ca72b599ee73b5"
     x = Comm(smoochid=smoochid, user_text="tester", metadata=None, device='not local')
     print x.send_msg(text="lol")
-    print x.get_webhooks()
-
+    print x.execute_queue()
 
 

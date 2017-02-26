@@ -62,7 +62,7 @@ def api():
 
             return "error"
         except Exception as e:
-            print e
+            print "error: : ",e
             print "something didn't work"
             return "error :("
     else:
@@ -71,4 +71,4 @@ def api():
 
 
 if __name__ == "__main__":
-    app.run(host='localhost', port='8080')
+    app.run(host='0.0.0.0', port='80')

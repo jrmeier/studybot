@@ -12,11 +12,12 @@ Purpose: function to implement all the classes and data instructions
 
 import helpers.smooch as comm
 import helpers.user as user
-
+import urllib3
+import intents
 
 def compute(smoochid, msg, device, postback, metadata):
+    urllib3.disable_warnings()
     '''
-    Main engine that passes variables to all modules. Brain of Holmes :)
     '''
     # initialize the classes
     print "u_comm initializing ..."
@@ -24,9 +25,10 @@ def compute(smoochid, msg, device, postback, metadata):
     print "u_comm finished runninug"
     u_data = user.UserData(smoochid=smoochid)
 
-    u_comm.typing_indicator(True)
-
     print "msg: ", msg
+    if msg == "quit":
+        intents.quit_studying(u_comm, u_data)
+    print "postback: ", postback
     if msg == "missing message":
         print "MISSING MESSSAGE"
         return True
@@ -46,16 +48,18 @@ def compute(smoochid, msg, device, postback, metadata):
         u_data.print_all()
 
         if u_data.get_data('intent') == "newUser":
-            u_comm.send_msg("hello new user!")
+            intents.newUser(u_comm, u_data, metadata)
+            print "newUser"
 
-        elif u_data.get_data('intent') == "start_study":
+        elif u_data.get_data('intent') == "start_studying":
             u_comm.send_msg("okay, cool. Let's get started")
-
-        elif u_data.get_data('intent') == "quit_study":
+            print "start_study"
+        elif u_data.get_data('intent') == "quit_studying":
             u_comm.send_msg("Okay, we will stop!")
+            print "I hate this"
         else:
             u_comm.send_msg("Hmm. That's not supposed to happen!")
-
+            print "what just happend?"
     except Exception as e:
         error = str(repr(e))
         print "Error", e

@@ -1,0 +1,17 @@
+#title {
+  text-align: center;
+  font-size: 50px;
+	font-family: 'Oswald', sans-serif;
+	color: black;
+}
+
+#about {
+  text-align: center;
+  font-size: 25px;
+	font-family: 'Oswald', sans-serif;
+	color: black;
+}
+
+body {
+  background-color: #bad2ef;
+}

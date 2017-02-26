@@ -10,11 +10,14 @@ app = Flask(__name__)
 @app.route("/")
 def hello():
     return send_from_directory('./', './index.html')
+@app.route("/conf.js")
+def conf():
+    return send_from_directory('./','./conf.js')
 
 
-@app.route('/botstyle.css')
+@app.route('/styles.css')
 def static_proxy():
-    return send_from_directory('./', './botstyle.css')
+    return send_from_directory('./', './styles.css')
 
 
 @app.route("/quizlet/", methods=['GET', 'POST'])

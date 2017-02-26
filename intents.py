@@ -23,7 +23,7 @@ def user_register(u_comm, u_data, msg):
         return
     u_data.post_data({'qid': msg})
     u_data.post_data({'intent': 'start_studying'})
-    u_comm.send_msg("Thanks!")
+    u_comm.send_msg("Thanks!\n Type \"quit\" at any time to stop studying and view your three most recent decks listed your Quizlet account")
     return start_studying(u_comm,u_data)
 
 def quit_studying(u_comm, u_data):
@@ -59,6 +59,7 @@ def study_deck(u_comm, u_data, metadata):
     #u_data.post_data({'deck': str(metadata['id'])})
     qz = quizlet(u_data)
     first = u_data.get_data('first')
+    #u_comm.send_msg("Type \"quit\" at any time to stop studying and view your three most recent decks listed your Quizlet account")
     u_comm.send_msg(first + " will always be shown first")
     question = qz.random_card()
     u_data.post_data({'term': question['term']})

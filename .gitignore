@@ -1,0 +1,6 @@
+conf.js
+index.html
+*.pyc
+config.py
+.idea/
+

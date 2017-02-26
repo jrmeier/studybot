@@ -16,6 +16,7 @@ from pymongo import MongoClient
 from datetime import datetime, timedelta
 import datetime
 import os
+import config
 
 
 class UserData:
@@ -57,7 +58,8 @@ class UserData:
     def connect_to_db(self):
         print "Attempting to connect to database..."
         try:
-            client = MongoClient('mongodb://localhost:27017/master')
+            cstring = config.mongo()
+            client = MongoClient(cstring)
             self.db = client.master
 
         except:

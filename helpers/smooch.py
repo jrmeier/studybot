@@ -7,6 +7,7 @@
 # =============================================================================
 
 import requests, json, sys, random, time
+import config
 
 
 class Comm:
@@ -21,8 +22,8 @@ class Comm:
         self.smoochid = smoochid
         self.metadata = metadata
         self.user_text = user_text
-        self.smoochAppId = '6msd40qa7d3u3uvxhx5muf0xf'
-        self.bearer = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImFwcF81OGIwZmM5Y2EwNjRmZjY0MDBlN2EyZmEifQ.eyJzY29wZSI6ImFwcCJ9.qaETkxz039oyxrdnDpf2XQwxe6DlnutmlI9PG0Gb5Gc'
+        self.smoochAppId = config.appID()
+        self.bearer = config.bearer()
         self.header = {'content-type': 'application/json', 'authorization': self.bearer}
         self.queue = []
         self.typing_status = False

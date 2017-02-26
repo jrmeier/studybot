@@ -8,14 +8,14 @@
 import requests
 import json
 import random
-
+import config
 class quizlet:
     def __init__(self, u_data):
         self.user = u_data.get_data('qid')
         self.setId = str(u_data.get_data('deck'))
         self.base = "https://api.quizlet.com/2.0/users/"
-        self.header = {'Authorization': 'Bearer sVCXymGVgRXkuj94V6NnnTj9RegXZJ7x8A6Je68Z'}
-
+        
+        self.header = {'Authorization': config.qz_bearer()}
     def get_sets(self):
         req = requests.get(self.base+self.user+"/sets",headers=self.header)
         sets = json.loads(req.content)
@@ -24,20 +24,13 @@ class quizlet:
             titles.append({'title': each['title'], 'id': each['id']})
         return titles
 
-
-    def get_terms(self):
-        code = "https://api.quizlet.com/2.0/sets/191423753/terms"
-        req = requests.get(code,headers=headers)
-        return json.loads(req.content)
-
     def random_card(self):
         url = "https://api.quizlet.com/2.0/sets/"+self.setId+"/terms"
-        headers = {'Authorization': 'Bearer sVCXymGVgRXkuj94V6NnnTj9RegXZJ7x8A6Je68Z'}
-        req = requests.get(url, headers=headers)
+        req = requests.get(url, headers=self.header)
         jsonArray = json.loads(req.content)
 
         return random.choice(jsonArray)
 
 if __name__ == '__main__':
-    qz = quizlet("Brian_Espinosa854")
+    qz = quizlet("")
     print qz.get_sets()

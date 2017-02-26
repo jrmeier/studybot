@@ -8,7 +8,7 @@
 import requests
 import json
 
-class Quizlet:
+class quizlet:
 
     def __init__(self, user):
         self.user = user
@@ -18,9 +18,13 @@ class Quizlet:
         code = "https://api.quizlet.com/2.0/users/"+self.user+"/sets"
         headers = {'Authorization': 'Bearer sVCXymGVgRXkuj94V6NnnTj9RegXZJ7x8A6Je68Z'}
         req = requests.get(code,headers=headers)
-        #req = requests.get('https://api.quizlet.com/2.0/users/jed_meier',headers)
-        return json.loads(req.content)
+        sets = json.loads(req.content)
+        titles = []
+        for each in sets:
+            titles.append({'title':each['title'],'id': each['id']})
+        return titles
 
 if __name__ == '__main__':
-    qz = Quizlet("Brian_Espinosa854")
+    qz = quizlet("Brian_Espinosa854")
+
     print qz.get_sets()

@@ -12,11 +12,9 @@ Purpose: function to implement all the classes and data instructions
 
 import helpers.smooch as comm
 import helpers.user as user
-import urllib3
 import intents
 
 def compute(smoochid, msg, device, postback, metadata):
-    urllib3.disable_warnings()
     '''
     '''
     # initialize the classes
@@ -28,6 +26,7 @@ def compute(smoochid, msg, device, postback, metadata):
     print "msg: ", msg
     if msg == "quit":
         intents.quit_studying(u_comm, u_data)
+        return
     print "postback: ", postback
     if msg == "missing message":
         print "MISSING MESSSAGE"
@@ -72,4 +71,7 @@ if __name__ == "__main__":
     device = "what"
     postback = "newUser"
     metadata = None
-    print compute("683a60ded0ca72b599ee73b5", msg, device, postback, metadata)
+    text = raw_input("User Text: ")
+    while text != "stop":
+        print compute("683a60ded0ca72b599ee73b5", text, device, postback, metadata)
+

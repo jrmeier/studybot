@@ -6,6 +6,8 @@
 # Creation Date: 2017-25-2017
 # =============================================================================
 
+import quizlet
+
 def newUser(u_comm, u_data, metadata):
     u_comm.send_msg("Hello!")
     actions = [{"type": 'postback','text':'Set 1','payload':'start_studying','metadata': {'id':'id 1'}}]
@@ -14,4 +16,8 @@ def newUser(u_comm, u_data, metadata):
 def quit_studying(u_comm, u_data):
     u_comm.send_msg("Okay, we can take a break for awhile")
     u_data.post_data({'intent':'quit_studying'})
+
+def start_studying(u_comm, u_data):
+    q
+    sets = quizlet.get_sets()
 

@@ -12,6 +12,51 @@
 	color: black;
 }
 
+#tips_about {
+  text-align: center;
+  font-size: 25px;
+	font-family: 'Oswald', sans-serif;
+	color: black;
+  margin-top: 2.5em;
+}
+
+#tips {
+  text-align: center;
+  font-size: 25px;
+	font-family: 'Oswald', sans-serif;
+	color: black;
+}
+
 body {
   background-color: #bad2ef;
+}
+
+.navbar {
+	background-color: transparent;
+	min-height: 15px;
+	text-align: center;
+}
+
+.navcon {
+	width: 100%;
+	padding: 0px;
+}
+
+.navbartext {
+  font-family: 'Oswald', sans-serif;
+	font-size: 18px;
+	color: black;
+	text-align: center;
+	margin-top: 18em;
+	display: center;
+}
+
+.fa-ul {
+	padding-top: -35px;
+	padding-right: 25px;
+	margin: 0px;
+}
+
+.fa-heart {
+	color: #ff0000;
 }

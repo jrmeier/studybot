@@ -45,6 +45,8 @@ class UserData:
         # This should be the standard for new user creation intent 18 to show the initial message
         self.db.users.insert_one({'smoochid': self.smoochid,
                                   'intent': 'newUser',
+                                    'first': False,
+                                    'qid': False,
                                 })
 
         # User is created. Now let's store their information locally in user_obj
@@ -57,6 +59,7 @@ class UserData:
         try:
             client = MongoClient('mongodb://localhost:27017/master')
             self.db = client.master
+
         except:
             raise Exception("Can't connect to Database")
 

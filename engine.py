@@ -25,6 +25,8 @@ def compute(smoochid, msg, device, postback, metadata, intent=None):
 
     print "msg: ", msg
     print "intent: ",u_data.get_data('intent')
+    print metadata
+    u_data.print_all()
     if msg == "quit":
         intents.quit_studying(u_comm, u_data)
         return
@@ -32,18 +34,22 @@ def compute(smoochid, msg, device, postback, metadata, intent=None):
     if msg == "missing message":
         print "MISSING MESSSAGE"
         return True
-    if msg is None and u_data.get_data('intent') == "user_register":
-        print "msg was none"
-        return 
+    #if msg is None and u_data.get_data('intent') == "user_register":
+    #print "msg was none"
+    #return 
     if u_data.get_data('checkAnswer'):
-        if u_data.get_data('term').lower() == msg.lower():
+        first = u_data.get_data('first')
+        if first == 'term':
+            check = 'def'
+        elif first == 'definition':
+            check = 'term'
+        if u_data.get_data(check).lower() == msg.lower():
             u_comm.send_msg("You got it right! :) ")
         else:
             u_comm.send_msg("You got it wrong :(")
-            u_comm.send_msg("The correct answer was "+u_data.get_data('term')) 
+            u_comm.send_msg("The correct answer was "+u_data.get_data(check)) 
         u_data.post_data({'checkAnswer': False})
     
-
 
     try:
         # if there is a postback that is for sure the intent
@@ -62,6 +68,8 @@ def compute(smoochid, msg, device, postback, metadata, intent=None):
         if u_data.get_data('intent') == "newUser":
             intents.newUser(u_comm, u_data, metadata)
             print "newUser"
+        elif u_data.get_data('intent') == "save_first":
+            intents.save_first(u_comm, u_data, metadata)
         elif u_data.get_data('intent') == "study_deck":
             intents.study_deck(u_comm, u_data, metadata)
 

@@ -10,11 +10,11 @@ import json
 import random
 
 class quizlet:
-    def __init__(self, user):
-        self.user = user
+    def __init__(self, u_data):
+        self.user = u_data.get_data('qid')
+        self.setId = str(u_data.get_data('deck'))
         self.base = "https://api.quizlet.com/2.0/users/"
         self.header = {'Authorization': 'Bearer sVCXymGVgRXkuj94V6NnnTj9RegXZJ7x8A6Je68Z'}
-
 
     def get_sets(self):
         req = requests.get(self.base+self.user+"/sets",headers=self.header)
@@ -27,14 +27,13 @@ class quizlet:
 
     def get_terms(self):
         code = "https://api.quizlet.com/2.0/sets/191423753/terms"
-        headers = {'Authorization': 'Bearer sVCXymGVgRXkuj94V6NnnTj9RegXZJ7x8A6Je68Z'}
         req = requests.get(code,headers=headers)
         return json.loads(req.content)
 
     def random_card(self):
-        code = "https://api.quizlet.com/2.0/sets/415/terms"
+        url = "https://api.quizlet.com/2.0/sets/"+self.setId+"/terms"
         headers = {'Authorization': 'Bearer sVCXymGVgRXkuj94V6NnnTj9RegXZJ7x8A6Je68Z'}
-        req = requests.get(code, headers=headers)
+        req = requests.get(url, headers=headers)
         jsonArray = json.loads(req.content)
 
         return random.choice(jsonArray)

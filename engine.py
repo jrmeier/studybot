@@ -14,7 +14,7 @@ import helpers.smooch as comm
 import helpers.user as user
 import intents
 
-def compute(smoochid, msg, device, postback, metadata, intent):
+def compute(smoochid, msg, device, postback, metadata, intent=None):
     '''
     '''
     # initialize the classes
@@ -24,6 +24,7 @@ def compute(smoochid, msg, device, postback, metadata, intent):
     u_data = user.UserData(smoochid=smoochid)
 
     print "msg: ", msg
+    print "intent: ",u_data.get_data('intent')
     if msg == "quit":
         intents.quit_studying(u_comm, u_data)
         return
@@ -31,6 +32,18 @@ def compute(smoochid, msg, device, postback, metadata, intent):
     if msg == "missing message":
         print "MISSING MESSSAGE"
         return True
+    if msg is None and u_data.get_data('intent') == "user_register":
+        print "msg was none"
+        return 
+    if u_data.get_data('checkAnswer'):
+        if u_data.get_data('term').lower() == msg.lower():
+            u_comm.send_msg("You got it right! :) ")
+        else:
+            u_comm.send_msg("You got it wrong :(")
+            u_comm.send_msg("The correct answer was "+u_data.get_data('term')) 
+        u_data.post_data({'checkAnswer': False})
+    
+
 
     try:
         # if there is a postback that is for sure the intent
@@ -39,7 +52,7 @@ def compute(smoochid, msg, device, postback, metadata, intent):
         else:
             print "there wasn't a post back!"
             # grabs the previous intent
-            curr_intent = intent
+            curr_intent = u_data.get_data('intent')
 
         u_data.post_data({'intent': curr_intent})
 
@@ -49,6 +62,8 @@ def compute(smoochid, msg, device, postback, metadata, intent):
         if u_data.get_data('intent') == "newUser":
             intents.newUser(u_comm, u_data, metadata)
             print "newUser"
+        elif u_data.get_data('intent') == "study_deck":
+            intents.study_deck(u_comm, u_data, metadata)
 
         elif u_data.get_data('intent') == "start_studying":
             intents.start_studying(u_comm, u_data)
@@ -56,6 +71,11 @@ def compute(smoochid, msg, device, postback, metadata, intent):
         elif u_data.get_data('intent') == "quit_studying":
             u_comm.send_msg("Okay, we will stop!")
             print "I hate this"
+        elif u_data.get_data('intent') == "user_register":
+            intents.user_register(u_comm, u_data, msg)
+        elif u_data.get_data('intent') == "studying":
+            intents.studying(u_comm, u_data)
+            #u_comm.send_msg("okay your intent is studying")
         else:
             u_comm.send_msg("Hmm. That's not supposed to happen!")
             print "what just happend?"

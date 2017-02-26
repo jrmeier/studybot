@@ -11,17 +11,46 @@ from quizlet import quizlet
 
 def newUser(u_comm, u_data, metadata):
     u_comm.send_msg("Hello!")
-    actions = [{"type": 'postback','text':'Set 1','payload':'start_studying','metadata': {'id':'id 1'}}]
-    u_comm.send_action(msg="Chose which set to study!", actions=actions)
-
+    u_comm.send_msg("Click to link quizlet http://130.211.227.127/quizlet/qz.php")
+    u_comm.send_msg("Please enter the username EXACTLY how it appear on the page")
+    return u_comm.send_action(msg = "tap the button when you're ready",actions=[{'type':'postback','text':'Got it','payload':'user_register','metadata': {}}])
+    #u_data.post_data({'intent':'user_register'})
+    
+def user_register(u_comm, u_data, msg):
+    if msg is None:
+        u_comm.send_msg("please enter your username")
+        return
+    u_data.post_data({'qid': msg})
+    u_data.post_data({'intent': 'start_studying'})
+    u_comm.send_msg("Thanks!")
+    return start_studying(u_comm,u_data)
 
 def quit_studying(u_comm, u_data):
     u_comm.send_msg("Okay, we can take a break for awhile")
     u_data.post_data({'intent':'quit_studying'})
 
+def study_deck(u_comm, u_data, metadata):
+    u_data.post_data({'intent':'studying'})
+    u_data.post_data({'deck': str(metadata['id'])})
+    qz = quizlet(u_data)
+    u_comm.send_msg("Definition will always be first")
+    question = qz.random_card()
+    u_data.post_data({'term': question['term']})
+    u_data.post_data({'def': question['definition']})
+    u_data.post_data({'checkAnswer': True})
+    u_comm.send_msg(question['definition'])
+    
+
+def studying(u_comm, u_data):
+    qz = quizlet(u_data);
+    question = qz.random_card()
+    u_data.post_data({'term': question['term']})
+    u_data.post_data({'def': question['definition']})
+    u_data.post_data({'checkAnswer': True})
+    u_comm.send_msg(question['definition'])
 
 def start_studying(u_comm, u_data):
-    qz = quizlet("Brian_Espinosa854")
+    qz = quizlet(u_data)
     sets = qz.get_sets()
     actions = []
     temp = []

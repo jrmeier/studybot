@@ -22,6 +22,10 @@ def quizlet():
     print "quizlet endpoint"
     return "hey you found the quizlet endpoint!"
 
+@app.route("/register/<uid>")
+def register(uid):
+    return uid
+
 
 @app.route("/api/", methods=['GET', 'POST'])
 def api():

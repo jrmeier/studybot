@@ -45,7 +45,6 @@ class UserData:
         # This should be the standard for new user creation intent 18 to show the initial message
         self.db.users.insert_one({'smoochid': self.smoochid,
                                   'intent': 'newUser',
-                                  'qid': False
                                 })
 
         # User is created. Now let's store their information locally in user_obj

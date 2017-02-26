@@ -27,12 +27,36 @@ def user_register(u_comm, u_data, msg):
     return start_studying(u_comm,u_data)
 
 def quit_studying(u_comm, u_data):
-    u_comm.send_msg("Okay, we can take a break for awhile")
-    u_data.post_data({'intent':'quit_studying'})
+    u_comm.send_msg("Okay, I'm ready to start when you are! :)")
+    u_data.post_data({'first':False})
+    u_data.post_data({'checkAnswer': False})
+    u_data.post_data({'deck': False})
+    u_data.write_data()
+    return u_data.post_data({'intent':'start_studying'})
+    
 
 def study_deck(u_comm, u_data, metadata):
+    print "at study deck"
+    print metadata
+    if metadata is not None:
+        print u_data.post_data({'deck': str(metadata['id'])})
+    
+    if not u_data.get_data('first'):
+        u_comm.send_action(msg='What would you like to see first?',actions=[
+                {'type': 'postback',
+                'text': 'Term',
+                'payload': 'save_first',
+                'metadata': {'first': 'term'}
+                },
+                {'type': 'postback',
+                'text': 'Definition',
+                'payload':'save_first',
+                'metadata':{'first':'definition'}
+                }])
+        return
+
     u_data.post_data({'intent':'studying'})
-    u_data.post_data({'deck': str(metadata['id'])})
+    #u_data.post_data({'deck': str(metadata['id'])})
     qz = quizlet(u_data)
     first = u_data.get_data('first')
     u_comm.send_msg(first + " will always be shown first")
@@ -57,32 +81,21 @@ def save_first(u_comm, u_data, metadata):
     return start_studying(u_comm, u_data)
 
 def start_studying(u_comm, u_data):
-    if not u_data.get_data('first'):
-        u_comm.send_action(msg='What would you like to see first?',actions=[
-                {'type': 'postback',
-                'text': 'Term',
-                'payload': 'save_first',
-                'metadata': {'first': 'term'}
-                },
-                {'type': 'postback',
-                'text': 'Definition',
-                'payload':'save_first',
-                'metadata':{'first':'definition'}
-                }])
-        return
     qz = quizlet(u_data)
     sets = qz.get_sets()
     actions = []
     temp = []
-    for set in sets:
-        temp = {'type': 'postback',
-                'text': set['title'],
-                'payload': 'study_deck',
-                'metadata': {'id': str(set['id'])}
-                }
-        actions.append(temp)
-    u_comm.send_action(msg="Choose which deck to study",actions=actions)
-
+    if not u_data.get_data('deck'):
+        for set in sets:
+            temp = {'type': 'postback',
+                    'text': set['title'],
+                    'payload': 'study_deck',
+                    'metadata': {'id': str(set['id'])}
+                    }
+            actions.append(temp)
+        u_comm.send_action(msg="Choose which deck to study",actions=actions)
+    else:
+        study_deck(u_comm, u_data,{'id':u_data.get_data('deck')})
 
  
 if __name__ == "__main__":

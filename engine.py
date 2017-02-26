@@ -29,7 +29,7 @@ def compute(smoochid, msg, device, postback, metadata, intent=None):
     u_data.print_all()
     if msg == "quit":
         intents.quit_studying(u_comm, u_data)
-        return
+    
     print "postback: ", postback
     if msg == "missing message":
         print "MISSING MESSSAGE"

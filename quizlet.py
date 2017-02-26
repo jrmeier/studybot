@@ -7,6 +7,7 @@
 # =============================================================================
 import requests
 import json
+from random import randint
 
 class quizlet:
 
@@ -24,7 +25,22 @@ class quizlet:
             titles.append({'title':each['title'],'id': each['id']})
         return titles
 
+    def get_terms(self):
+        code = "https://api.quizlet.com/2.0/sets/415/terms"
+        headers = {'Authorization': 'Bearer sVCXymGVgRXkuj94V6NnnTj9RegXZJ7x8A6Je68Z'}
+        req = requests.get(code,headers=headers)
+        #req = requests.get('https://api.quizlet.com/2.0/users/jed_meier',headers)
+        return json.loads(req.content)
+
+    def json_array(self):
+        code = "https://api.quizlet.com/2.0/sets/415/terms"
+        headers = {'Authorization': 'Bearer sVCXymGVgRXkuj94V6NnnTj9RegXZJ7x8A6Je68Z'}
+        req = requests.get(code,headers=headers)
+        #req = requests.get('https://api.quizlet.com/2.0/users/jed_meier',headers)
+        jsonArray = json.loads(req.content)
+
+        return jsonArray[randint(0, 50)]
+
 if __name__ == '__main__':
     qz = quizlet("Brian_Espinosa854")
-
     print qz.get_sets()

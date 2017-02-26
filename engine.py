@@ -14,7 +14,7 @@ import helpers.smooch as comm
 import helpers.user as user
 import intents
 
-def compute(smoochid, msg, device, postback, metadata):
+def compute(smoochid, msg, device, postback, metadata, intent):
     '''
     '''
     # initialize the classes
@@ -39,7 +39,7 @@ def compute(smoochid, msg, device, postback, metadata):
         else:
             print "there wasn't a post back!"
             # grabs the previous intent
-            curr_intent = u_data.get_data('intent')
+            curr_intent = intent
 
         u_data.post_data({'intent': curr_intent})
 
@@ -51,7 +51,7 @@ def compute(smoochid, msg, device, postback, metadata):
             print "newUser"
 
         elif u_data.get_data('intent') == "start_studying":
-            u_comm.send_msg("okay, cool. Let's get started")
+            intents.start_studying(u_comm, u_data)
             print "start_study"
         elif u_data.get_data('intent') == "quit_studying":
             u_comm.send_msg("Okay, we will stop!")
@@ -69,9 +69,9 @@ def compute(smoochid, msg, device, postback, metadata):
 if __name__ == "__main__":
     msg = "test"
     device = "what"
-    postback = "newUser"
+    postback = None
+    intent = "start_studying"
     metadata = None
     text = raw_input("User Text: ")
-    while text != "stop":
-        print compute("683a60ded0ca72b599ee73b5", text, device, postback, metadata)
+    print compute("683a60ded0ca72b599ee73b5", text, device, postback, metadata, intent=intent)
 

@@ -83,10 +83,10 @@ class Comm:
                 print str(each)
         else:
             print "Executing queue on user..."
-
+            self.typing_indicator(True)
             for each in self.queue:
-                wait = round(random.uniform(.5, 2), 2)
-                time.sleep(wait)
+                #wait = round(random.uniform(.01, .1), 2)
+                #time.sleep(wait)
                 read = requests.post(
                     'https://api.smooch.io/v1/appusers/' + str(self.smoochid) + '/messages', json=each,
                     headers=self.header)
@@ -96,7 +96,7 @@ class Comm:
                     print "status code: ", read.content
                     return False
             return True
-
+            
 
     def empty_queue(self):
         self.queue = []
